@@ -1,0 +1,7 @@
+.idea/
+*.pyc
+*.log
+test/
+dist/
+build/
+spoon.egg-info/
