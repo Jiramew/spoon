@@ -16,12 +16,12 @@ def validate(target_url, proxy):
     try:
         r = requests.get(target_url, proxies=proxies, timeout=5, verify=False, headers=HEADERS_IPHONE)
         if r.status_code == 200:
-            log.info('validate success target {0} proxy{1}'.format(target_url, proxy))
+            log.info('validate success target {0} proxy {1}'.format(target_url, proxy))
             return True
         else:
             return False
     except Exception as e:
-        log.error("{0}".format(e))
+        log.error("validate failed with {0}".format(e))
         return False
 
 if __name__ == "__main__":
