@@ -14,7 +14,7 @@ class Validater(Manager):
                     each_proxy = each_proxy.decode('utf-8')
                 value = self.database.getvalue(self.generate_name(self._useful_prefix), each_proxy)
                 if validate(self._url_prefix, each_proxy):
-                    if not value == 100:
+                    if not int(value) >= 100:
                         self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, 1)
                 else:
                     if int(value) > 0:
