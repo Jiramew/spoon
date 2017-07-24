@@ -17,8 +17,8 @@ class Validater(Manager):
                     if not value == 100:
                         self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, 1)
                 else:
-                    if value > 0:
-                        self.database.set_value(self.generate_name(self._useful_prefix), each_proxy, int(value / 2))
+                    if int(value) > 0:
+                        self.database.set_value(self.generate_name(self._useful_prefix), each_proxy, int(int(value) / 2))
                     self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, -1)
                 if value and int(value) < -2:
                     self.database.delete(self.generate_name(self._useful_prefix), each_proxy)
