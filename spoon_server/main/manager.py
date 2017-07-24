@@ -49,6 +49,9 @@ class Manager(object):
     def get(self):
         return self.database.get(self.generate_name(self._useful_prefix))
 
+    def set_value(self, key, value):
+        return self.database.set_value(self.generate_name(self._useful_prefix), key, value)
+
     def delete(self, proxy):
         self.database.delete(self.generate_name(self._useful_prefix), proxy)
 

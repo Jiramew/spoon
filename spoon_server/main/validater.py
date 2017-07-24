@@ -12,11 +12,14 @@ class Validater(Manager):
             for each_proxy in self.database.get_all(self.generate_name(self._useful_prefix)):
                 if isinstance(each_proxy, bytes):
                     each_proxy = each_proxy.decode('utf-8')
-                if validate(self._url_prefix, each_proxy):
-                    self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, 1)
-                else:
-                    self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, -1)
                 value = self.database.getvalue(self.generate_name(self._useful_prefix), each_proxy)
+                if validate(self._url_prefix, each_proxy):
+                    if not value == 100:
+                        self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, 1)
+                else:
+                    if value > 0:
+                        self.database.set_value(self.generate_name(self._useful_prefix), each_proxy, int(value / 2))
+                    self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, -1)
                 if value and int(value) < -2:
                     self.database.delete(self.generate_name(self._useful_prefix), each_proxy)
             time.sleep(2)

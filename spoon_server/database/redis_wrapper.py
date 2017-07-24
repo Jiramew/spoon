@@ -31,6 +31,9 @@ class RedisWrapper(object):
     def inckey(self, name, key, value):
         self._connection.hincrby(name, key, value)
 
+    def set_value(self, name, key, value):
+        self._connection.hset(name, key, value)
+
     def get_all(self, name):
         return self._connection.hgetall(name).keys()
 
