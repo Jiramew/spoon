@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='spoon',
-    version='0.1',
-    description='A package for building Proxy Pool for specific URLs.',
+    name='spoonproxy',
+    version='git.latest',
+    description='A package for building specific Proxy Pool for different Sites.',
     packages=find_packages(),
     url='https://github.com/Jiramew/spoon',
     license='BSD License',
@@ -22,9 +22,9 @@ setup(
     ],
     install_requires=[
         'requests>=2.18.1',
-        'django>=1.11.3',
         'lxml>=3.8.0',
         'redis>=2.10.5',
         'schedule>=0.4.3',
+        'PyExecJS>=1.4.0',
     ]
 )

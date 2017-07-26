@@ -16,6 +16,7 @@ class SixProvider(Provider):
                    "export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea="
         return url_list
 
+    @Provider.provider_exception
     def getter(self):
         html = get_html(self.url_list, headers=HEADERS)
         if not html:

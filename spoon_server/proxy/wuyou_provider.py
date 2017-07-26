@@ -17,12 +17,13 @@ class WuyouProvider(Provider):
 
         return url_list
 
+    @Provider.provider_exception
     def getter(self):
         for url in self.url_list:
             tree = get_html_tree(url)
-            if not tree:
+            if tree is None:
                 continue
-            px_segment = tree.xpath("/html/body/div[4]/li[2]/ul")[1:]
+            px_segment = tree.xpath("/html/body/div[5]/ul/li[2]/ul")[1:]
             for px in px_segment:
                 yield ":".join(px.xpath(
                     "./span/li/text()")[0:2])

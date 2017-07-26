@@ -13,10 +13,14 @@ class YouProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = get_html_tree("http://www.youdaili.net/Daili/http/").xpath(
-            './/div[@class="chunlist"]/ul/li/p/a/@href')[0:1]
-        return url_list
+        try:
+            url_list = get_html_tree("http://www.youdaili.net/Daili/http/").xpath(
+                './/div[@class="chunlist"]/ul/li/p/a/@href')[0:1]
+            return url_list
+        except Exception as e:
+            raise e
 
+    @Provider.provider_exception
     def getter(self):
         for url in self.url_list:
             html = requests.get(url, headers=HEADERS).content
@@ -28,6 +32,10 @@ class YouProvider(Provider):
 
 
 if __name__ == "__main__":
-    kd = YouProvider()
-    for proxy in kd.getter():
-        print(proxy)
+    try:
+        kd = YouProvider()
+        aaa = kd.getter()
+        for proxy in aaa:
+            print(proxy)
+    except Exception as e:
+        print(str(e))

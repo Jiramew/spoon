@@ -4,8 +4,8 @@ import redis
 
 
 class RedisWrapper(object):
-    def __init__(self, host, port):
-        self._connection = redis.Redis(host=host, port=port, db=0, encoding='utf-8')
+    def __init__(self, host, port, db=0, password=None):
+        self._connection = redis.Redis(host=host, port=port, db=db, encoding='utf-8', password=password)
 
     def get(self, name):
         key = self._connection.hgetall(name=name)
@@ -24,6 +24,11 @@ class RedisWrapper(object):
         if key:
             self._connection.hdel(name, key)
         return key
+
+    def len(self, name):
+        key = self.get(name)
+        if key:
+            self._connection.hlen(name)
 
     def delete(self, name, key):
         self._connection.hdel(name, key)
@@ -45,6 +50,7 @@ class RedisWrapper(object):
 
     def get_all_kv(self, name):
         return self._connection.hgetall(name)
+
 
 if __name__ == '__main__':
     redis_con = RedisWrapper('localhost', 6379)

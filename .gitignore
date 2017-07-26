@@ -1,7 +1,10 @@
 .idea/
 *.pyc
 *.log
+.pypirc
 test/
 dist/
 build/
-spoon.egg-info/
+spoonproxy.egg-info/
+setup_pypi.py
+build.sh

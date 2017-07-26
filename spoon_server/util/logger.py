@@ -2,7 +2,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-log_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir), 'log')
+log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 
 log_fmt = '%(asctime)s\tFile \"%(filename)s\",line %(lineno)s\t%(levelname)s: %(message)s'
 formatter = logging.Formatter(log_fmt)
