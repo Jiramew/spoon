@@ -56,7 +56,7 @@ The default proxy providers are shown below, you can write your own providers.
     </thead>
     <tbody>
         <tr>
-          <td>KuaiPayProvider</td>
+          <td>WebProvider</td>
           <td>Get proxy from http api</td>
         </tr>
         <tr>
