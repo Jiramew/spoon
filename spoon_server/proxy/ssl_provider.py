@@ -2,7 +2,7 @@ from spoon_server.proxy.provider import Provider
 from spoon_server.util.html_parser import get_html_tree
 
 
-class FPLProvider(Provider):
+class SSLProvider(Provider):
     def __init__(self, url_list=None, proxy=None):
         super(Provider, self).__init__()
         if not url_list:
@@ -11,7 +11,7 @@ class FPLProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = ["https://free-proxy-list.net/", "https://free-proxy-list.net/anonymous-proxy.html"]
+        url_list = ["https://www.sslproxies.org/"]
         return url_list
 
     @Provider.provider_exception
@@ -28,7 +28,7 @@ class FPLProvider(Provider):
 
 
 if __name__ == "__main__":
-    kd = FPLProvider()
+    kd = SSLProvider()
     try:
         for proxy in kd.getter():
             print(proxy)

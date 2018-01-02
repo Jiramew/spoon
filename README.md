@@ -124,6 +124,10 @@ The default proxy providers are shown below, you can write your own providers.
           <td>https://free-proxy-list.net</td>
         </tr>
         <tr>
+          <td>SSLProvider(@NeedProxy if you're in China)</td>
+          <td>https://www.sslproxies.org</td>
+        </tr>
+        <tr>
           <td>NordProvider(@NeedProxy if you're in China)</td>
           <td>https://nordvpn.com</td>
         </tr>
