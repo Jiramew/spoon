@@ -14,22 +14,24 @@ class Validater(Manager):
     def _validate_proxy(self, each_proxy):
         if isinstance(each_proxy, bytes):
             each_proxy = each_proxy.decode('utf-8')
-        value = self.database.getvalue(self.generate_name(self._useful_prefix), each_proxy)
-        if int(value) < 0:
+        value = int(self.database.getvalue(self.generate_name(self._useful_prefix), each_proxy))
+        if value < 0:
             self.database.delete(self.generate_name(self._useful_prefix), each_proxy)
         else:
             if validate(self._url_prefix, each_proxy, self._checker):
-                if not int(value) >= 100:
-                    if int(value) == 99:
+                self.database.zadd(self.generate_name(self._current_prefix), each_proxy, int(-1 * time.time()))
+                self.database.zrange(self.generate_name(self._current_prefix), 0, 100)
+                if not value >= 100:
+                    if value == 99:
                         self.database.set_value(self.generate_name(self._hundred_prefix), each_proxy, time.time())
                     self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, 1)
                 else:
                     self.database.set_value(self.generate_name(self._hundred_prefix), each_proxy, time.time())
                     self.database.set_value(self.generate_name(self._useful_prefix), each_proxy, 100)
             else:
-                if int(value) > 0:
-                    self.database.set_value(self.generate_name(self._useful_prefix), each_proxy,
-                                            int(int(value) / 2))
+                self.database.zrem(self.generate_name(self._current_prefix), each_proxy)
+                if value > 0:
+                    self.database.set_value(self.generate_name(self._useful_prefix), each_proxy, value // 2)
                 self.database.inckey(self.generate_name(self._useful_prefix), each_proxy, -1)
 
     def main(self):

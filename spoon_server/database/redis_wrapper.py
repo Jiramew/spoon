@@ -39,6 +39,21 @@ class RedisWrapper(object):
     def set_value(self, name, key, value):
         self._connection.hset(name, key, value)
 
+    def rpush(self, name, value):
+        self._connection.rpush(name, value)
+
+    def ltrim(self, name, from_index, to_index):
+        self._connection.ltrim(name, from_index, to_index)
+
+    def zadd(self, name, key, score):
+        self._connection.zadd(name, key, score)
+
+    def zrange(self, name, low, high):
+        self._connection.zrange(name, low, high)
+
+    def zrem(self, name, key):
+        self._connection.zrem(name, key)
+
     def get_all(self, name):
         return self._connection.hgetall(name).keys()
 

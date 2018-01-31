@@ -4,7 +4,7 @@ class Provider(object):
         pass
 
     def getter(self):
-        pass
+        raise NotImplementedError("Getter method must be implemented.")
 
     @classmethod
     def provider_exception(cls, fun):

@@ -17,6 +17,7 @@ class Manager(object):
         self._origin_prefix = 'origin_proxy'
         self._useful_prefix = 'useful_proxy'
         self._hundred_prefix = 'hundred_proxy'
+        self._current_prefix = 'current_proxy'
 
         if not url_prefix:
             self._url_prefix = "default"
