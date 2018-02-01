@@ -1,5 +1,5 @@
 # Spoon - A package for building specific Proxy Pool for different Sites.
-Spoon is a library for building Proxy Pool for each different sites as you assign.      
+Spoon is a library for building Distributed Proxy Pool for each different sites as you assign.      
 Only running on python 3.
 
 ## Install
@@ -139,7 +139,7 @@ The default proxy providers are shown below, you can write your own providers.
 </table>
 
 ### Spoon-web
-A Simple django web api.          
+A Simple django web api demo. You could use any web server and write your own api.           
 Gently run `python manager.py runserver **.**.**.**:*****`      
 The simple apis include:
 <table class="table table-bordered table-striped">
@@ -155,7 +155,7 @@ The simple apis include:
           <td>Get all keys from redis</td>
         </tr>
         <tr>
-          <td>http://127.0.0.1:21010/api/v1/fetchall_from?target=www.google.com&filter=65</td>
+          <td>http://127.0.0.1:21010/api/v1/fetchone_from?target=www.google.com&filter=65</td>
           <td>Get one useful proxy. <br>target: the specific url<br> filter: successful-revalidate times</td>
         </tr>
         <tr>
@@ -168,7 +168,11 @@ The simple apis include:
         </tr>
         <tr>
           <td>http://127.0.0.1:21010/api/v1/fetch_stale?num=100</td>
-          <td>Get recently proxies without check <br>num: the specific number of proxies you want</td>
+          <td>Get recently proxies without check. <br>num: the specific number of proxies you want</td>
+        </tr>
+        <tr>
+          <td>http://127.0.0.1:21010/api/v1/fetch_recent?target=www.baidu.com</td>
+          <td>Get recently proxies that successfully validated. <br>target: the specific url</td>
         </tr>
     </tbody>
 </table>

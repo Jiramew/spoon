@@ -2,9 +2,12 @@ import re
 
 
 class Checker(object):
-    def __init__(self, url=None, timeout=20):
+    def __init__(self, url=None, timeout=20, status_code=None):
+        if status_code is None:
+            status_code = [200]
         self.timeout = timeout
         self.url = url
+        self.status_code = status_code
 
     def checker_func(self, html=None):
         return True

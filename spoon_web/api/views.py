@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from spoon_server.database.redis_config import RedisConfig
 from spoon_server.main.manager import Manager
 
-redis = RedisConfig("127.0.0.1", 6379, 0, "123")
+redis = RedisConfig("127.0.0.1", 6379, 0)
 
 
 def get_keys(request):
@@ -56,5 +56,14 @@ def fetch_stale(request):
     px_kv = m.get_all_kv_from("spoon:proxy_stale")
     res_list_pre = [[k.decode('utf-8'), float(v.decode('utf-8'))] for (k, v) in px_kv.items()]
     res_list = [k for [k, _] in sorted(res_list_pre, key=lambda item: -item[1])][0:num]
+
+    return HttpResponse("\r\n".join(res_list))
+
+
+def fetch_recent(request):
+    m = Manager(database=redis)
+    target_name = request.GET.get("target", "www.baidu.com")
+    px_list = m.get_range_from(":".join(["spoon", target_name, "current_proxy"]))
+    res_list = [px.decode('utf-8') for px in px_list]
 
     return HttpResponse("\r\n".join(res_list))

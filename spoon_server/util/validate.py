@@ -10,7 +10,7 @@ def validate(target_url, proxy, checker):
     proxies = {"http": "http://{proxy}".format(proxy=proxy), "https": "http://{proxy}".format(proxy=proxy)}
     try:
         r = requests.get(target_url, proxies=proxies, timeout=checker.timeout, verify=False, headers=HEADERS_IPHONE)
-        if r.status_code == 200:
+        if r.status_code in checker.status_code:
             if checker.checker_func(r.content):
                 log.info('validate success target {0} proxy {1}'.format(target_url, proxy))
                 return True

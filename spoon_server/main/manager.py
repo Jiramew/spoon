@@ -62,14 +62,15 @@ class Manager(object):
             return False
 
     def refresh(self):
-        log.info("REFRESH START WITH {0}".format(str(self._fetcher)))
+        log.info("REFRESH START WITH {0} TARGET {1}".format(str(self._fetcher), self.get_netloc()))
         if not self.refresh_condition():
-            log.info("REFRESH DID NOT MEET CONDITION")
+            log.info("REFRESH DID NOT MEET CONDITION. TARGET{0}".format(self.get_netloc()))
             return
 
         if len(self._fetcher) < 3:
             self._fetcher.restore_provider()
-            log.info("REFRESH FETCHER FAILED: NO ENOUGH PROVIDER, RESTORE PROVIDERS TO {0}".format(str(self._fetcher)))
+            log.info("REFRESH FETCHER FAILED: NO ENOUGH PROVIDER, RESTORE PROVIDERS TO {0}. TARGET {1}".format(
+                str(self._fetcher), self.get_netloc()))
         proxy_set = set()
 
         provider_to_be_removed_index = []
@@ -93,7 +94,7 @@ class Manager(object):
                 self.database.set_value("spoon:proxy_stale", proxy, time.time())
                 self.database.put(self.generate_name(self._origin_prefix), proxy)
 
-        log.info("REFRESH FETCHER DELETE {0}".format(provider_to_be_removed_index))
+        log.info("REFRESH FETCHER DELETE {0}. TARGET {1}".format(provider_to_be_removed_index, self.get_netloc()))
         self._fetcher.remove_provider(provider_to_be_removed_index)
 
     def get(self):
@@ -125,6 +126,9 @@ class Manager(object):
 
     def get_all_kv_from(self, target):
         return self.database.get_all_kv(target)
+
+    def get_range_from(self, target):
+        return self.database.zrange(target, 0, -1)
 
 
 if __name__ == "__main__":

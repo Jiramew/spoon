@@ -20,7 +20,7 @@ class Validater(Manager):
         else:
             if validate(self._url_prefix, each_proxy, self._checker):
                 self.database.zadd(self.generate_name(self._current_prefix), each_proxy, int(-1 * time.time()))
-                self.database.zrange(self.generate_name(self._current_prefix), 0, 100)
+                self.database.zremrangebyrank(self.generate_name(self._current_prefix), 100, 10000)
                 if not value >= 100:
                     if value == 99:
                         self.database.set_value(self.generate_name(self._hundred_prefix), each_proxy, time.time())

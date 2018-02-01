@@ -48,11 +48,11 @@ class RedisWrapper(object):
     def zadd(self, name, key, score):
         self._connection.zadd(name, key, score)
 
-    def zrange(self, name, low, high):
-        self._connection.zrange(name, low, high)
-
     def zrem(self, name, key):
         self._connection.zrem(name, key)
+
+    def zremrangebyrank(self, name, low, high):
+        self._connection.zremrangebyrank(name, low, high)
 
     def get_all(self, name):
         return self._connection.hgetall(name).keys()
@@ -65,6 +65,9 @@ class RedisWrapper(object):
 
     def get_all_kv(self, name):
         return self._connection.hgetall(name)
+
+    def zrange(self, name, low, high):
+        return self._connection.zrange(name, low, high)
 
 
 if __name__ == '__main__':
