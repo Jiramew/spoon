@@ -11,13 +11,14 @@ class WebProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = ["http://spys.one/pl.txt"]
+        # url_list = ["http://spys.one/pl.txt"]
+        url_list = ["http://www.89ip.cn/tiqv.php?sxb=&tqsl=10000&ports=&ktip=&xl=on&submit=%CC%E1++%C8%A1"]
         return url_list
 
     @Provider.provider_exception
     def getter(self):
         for url in self.url_list:
-            content = requests.get(url).content.decode("utf-8")
+            content = requests.get(url).content.decode("gbk")
             proxy_list = re.findall("\d+\.\d+\.\d+\.\d+:\d+", content)
             for proxy in proxy_list:
                 yield proxy

@@ -18,7 +18,7 @@ class WebdriverPool(object):
                 return self.available.get_nowait()
             except Empty:
                 driver_item = WebDriverItem(self.config)
-                self.all.put(driver)
+                self.all.put(driver_item)
                 return driver_item.get_webdriver()
 
     def release(self, driver_item):
