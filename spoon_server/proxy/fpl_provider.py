@@ -3,11 +3,11 @@ from spoon_server.util.html_parser import get_html_tree
 
 
 class FPLProvider(Provider):
-    def __init__(self, url_list=None, proxy=None):
+    def __init__(self, url_list=None, proxy_=None):
         super(Provider, self).__init__()
         if not url_list:
             self.url_list = self._gen_url_list()
-        self.proxy = proxy
+        self.proxy = proxy_
 
     @staticmethod
     def _gen_url_list():
@@ -16,9 +16,8 @@ class FPLProvider(Provider):
 
     @Provider.provider_exception
     def getter(self):
-        proxy = self.proxy  # you need to configure the proxy
         for url in self.url_list:
-            tree = get_html_tree(url, proxy=proxy)
+            tree = get_html_tree(url, proxy=self.proxy)
             if tree is None:
                 continue
             for item in tree.xpath("//table[@id='proxylisttable']/tbody/tr"):

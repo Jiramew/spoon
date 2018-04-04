@@ -88,7 +88,7 @@ The default proxy providers are shown below, you can write your own providers.
           <td>http://www.xicidaili.com</td>
         </tr>
         <tr>
-          <td>IP181</td>
+          <td>IP181Provider</td>
           <td>http://www.ip181.com</td>
         </tr>
         <tr>
@@ -114,6 +114,18 @@ The default proxy providers are shown below, you can write your own providers.
         <tr>
           <td>PdbProvider</td>
           <td>http://proxydb.net</td>
+        </tr>
+        <tr>
+          <td>ZdayeProvider</td>
+          <td>http://ip.zdaye.com</td>
+        </tr>
+        <tr>
+          <td>YaoProvider</td>
+          <td>http://www.httpsdaili.com/</td>
+        </tr>
+        <tr>
+          <td>MimvpProvider(@NeedCaptcha)</td>
+          <td>https://proxy.mimvp.com/</td>
         </tr>
         <tr>
           <td>GPProvider(@NeedProxy if you're in China)</td>

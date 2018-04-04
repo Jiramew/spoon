@@ -1,11 +1,12 @@
+from spoon_server.util.captcha import Captcha
 from spoon_server.proxy.provider import Provider
 from spoon_server.util.html_parser import get_html_tree
-from spoon_server.util.captcha import Captcha
 
 
 class MimvpProvider(Provider):
-    def __init__(self, url_list=None):
+    def __init__(self, captcha_recognize_url, url_list=None):
         super(Provider, self).__init__()
+        self.captcha_recognize_url = captcha_recognize_url
         if not url_list:
             self.url_list = self._gen_url_list()
 
@@ -30,10 +31,8 @@ class MimvpProvider(Provider):
 
             assert len(image_list) == len(ip_list)
 
-            cap = Captcha("Your captcha recognize api")
-
+            cap = Captcha(self.captcha_recognize_url)
             all_length = len(image_list)
-
             for i in range(all_length):
                 try:
                     port = cap.get_image_result(image_list[i])
@@ -43,6 +42,6 @@ class MimvpProvider(Provider):
 
 
 if __name__ == "__main__":
-    kd = MimvpProvider()
+    kd = MimvpProvider("Your captcha recognize url.")
     for proxy in kd.getter():
         print(proxy)

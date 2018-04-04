@@ -4,11 +4,11 @@ import requests
 
 
 class NordProvider(Provider):
-    def __init__(self, url_list=None, proxy=None):
+    def __init__(self, url_list=None, proxy_=None):
         super(Provider, self).__init__()
         if not url_list:
             self.url_list = self._gen_url_list()
-        self.proxy = proxy
+        self.proxy_ = proxy_
 
     @staticmethod
     def _gen_url_list():
@@ -19,7 +19,7 @@ class NordProvider(Provider):
     @Provider.provider_exception
     def getter(self):
         for url in self.url_list:
-            content = requests.get(url, proxies=self.proxy).content.decode("utf-8")
+            content = requests.get(url, proxies=self.proxy_).content.decode("utf-8")
             proxy_list = json.loads(content)
             for px in proxy_list:
                 yield px['ip'] + ":" + px['port']
