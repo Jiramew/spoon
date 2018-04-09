@@ -9,12 +9,8 @@ class GouProvider(Provider):
             self.url_list = self._gen_url_list()
 
     @staticmethod
-    def _gen_url_list(page=2):
-        base_url_list = ["http://www.goubanjia.com/free/gngn/index{0}.shtml",
-                         "http://www.goubanjia.com/free/gwgn/index{0}.shtml",
-                         "http://www.goubanjia.com/free/gwpt/index{0}.shtml"]
-
-        url_list = [url.format(j) for url in base_url_list for j in range(1, page)]
+    def _gen_url_list():
+        url_list = ["http://www.goubanjia.com"]
         return url_list
 
     @Provider.provider_exception
@@ -23,10 +19,11 @@ class GouProvider(Provider):
             tree = get_html_tree(url)
             if tree is None:
                 continue
-            px_segment = tree.xpath("//table[@ class='table']/tbody/tr")
-            for px in px_segment:
-                yield "".join(px.xpath(
-                    "./td[@class='ip']/span/text() | ./td[@class='ip']/div/text()|./td[@class='ip']/text()"))
+            table = tree.xpath('//table/tbody/tr')
+            for tb in table:
+                component = tb.xpath('td[@class="ip"]/*[not(@style="display: none;" or @style="display:none;")]/text()')
+                component.insert(-1, ':')
+                yield "".join(component)
 
 
 if __name__ == "__main__":

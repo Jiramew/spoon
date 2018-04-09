@@ -1,11 +1,12 @@
 import copy
-from spoon_server.proxy.gou_provider import GouProvider
+from spoon_server.proxy.ip3366_provider import IP3366Provider
 from spoon_server.proxy.kuai_provider import KuaiProvider
 from spoon_server.proxy.xici_provider import XiciProvider
 from spoon_server.proxy.wuyou_provider import WuyouProvider
 from spoon_server.proxy.us_provider import UsProvider
 from spoon_server.proxy.ip181_provider import IP181Provider
 from spoon_server.proxy.six_provider import SixProvider
+from spoon_server.proxy.zdaye_provider import ZdayeProvider
 
 
 class Fetcher(object):
@@ -19,7 +20,7 @@ class Fetcher(object):
     @staticmethod
     def _generate_provider_list():
         ip181 = IP181Provider()
-        gp = GouProvider()  # Maybe IP Block
+        ip3366 = IP3366Provider()  # Maybe IP Block
         kp = KuaiProvider()  # Maybe malfunction
         # kpp = KuaiPayProvider()
         xp = XiciProvider()
@@ -27,7 +28,8 @@ class Fetcher(object):
         wp = WuyouProvider()  # Maybe IP Block
         up = UsProvider()
         six = SixProvider()
-        return [ip181, up, gp, kp, xp, wp, six]
+        zdaye = ZdayeProvider()
+        return [ip181, up, ip3366, kp, xp, wp, six, zdaye]
 
     def clear(self):
         self.provider_list = []
