@@ -124,6 +124,14 @@ The default proxy providers are shown below, you can write your own providers.
           <td>http://www.httpsdaili.com/</td>
         </tr>
         <tr>
+          <td>FeilongProvider</td>
+          <td>http://www.feilongip.com/</td>
+        </tr>
+        <tr>
+          <td>IP31Provider</td>
+          <td>https://31f.cn/http-proxy/</td>
+        </tr>
+        <tr>
           <td>MimvpProvider(@NeedCaptcha)</td>
           <td>https://proxy.mimvp.com/</td>
         </tr>
