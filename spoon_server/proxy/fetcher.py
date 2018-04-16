@@ -7,6 +7,7 @@ from spoon_server.proxy.us_provider import UsProvider
 from spoon_server.proxy.ip181_provider import IP181Provider
 from spoon_server.proxy.six_provider import SixProvider
 from spoon_server.proxy.zdaye_provider import ZdayeProvider
+from spoon_server.proxy.busy_provider import BusyProvider
 
 
 class Fetcher(object):
@@ -29,7 +30,8 @@ class Fetcher(object):
         up = UsProvider()
         six = SixProvider()
         zdaye = ZdayeProvider()
-        return [ip181, up, ip3366, kp, xp, wp, six, zdaye]
+        busy = BusyProvider()
+        return [ip181, up, ip3366, kp, xp, wp, six, zdaye, busy]
 
     def clear(self):
         self.provider_list = []

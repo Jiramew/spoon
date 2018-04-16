@@ -10,8 +10,14 @@ class BusyProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = ['https://proxy.coderbusy.com/zh-cn/classical/anonymous-type/highanonymous/p{0}.aspx'.format(i) for i
-                    in range(1, 5)]
+        url_list = ['https://proxy.coderbusy.com/classical/anonymous-type/highanonymous.aspx?page={0}'.format(i) for i
+                    in range(1, 6)]
+        url_list.extend(
+            ['https://proxy.coderbusy.com/classical/anonymous-type/transparent.aspx?page={0}'.format(i) for i in
+             range(1, 6)])
+        url_list.extend(
+            ['https://proxy.coderbusy.com/classical/anonymous-type/anonymous.aspx?page={0}'.format(i) for i in
+             range(1, 6)])
         return url_list
 
     @Provider.provider_exception
@@ -20,9 +26,9 @@ class BusyProvider(Provider):
             tree = get_html_tree(url)
             if tree is None:
                 continue
-            proxy_list = tree.xpath('/html/body/main/div[2]/div/div/div[1]/div/div/table//tr')
-            for px in proxy_list[1:]:
-                yield ':'.join([px.xpath('./td/text()')[1].strip(), px.xpath('./td/text()')[2].strip()])
+            proxy_list = tree.xpath('//*[@id="site-app"]/div/div/div[1]/div/table/tbody/tr')
+            for px in proxy_list:
+                yield ':'.join([px.xpath('*/text()')[1].strip(), px.xpath('*/text()')[3].strip()])
 
 
 if __name__ == "__main__":

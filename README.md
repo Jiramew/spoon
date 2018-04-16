@@ -132,6 +132,10 @@ The default proxy providers are shown below, you can write your own providers.
           <td>https://31f.cn/http-proxy/</td>
         </tr>
         <tr>
+          <td>XiaohexiaProvider</td>
+          <td>http://www.xiaohexia.cn/</td>
+        </tr>
+        <tr>
           <td>MimvpProvider(@NeedCaptcha)</td>
           <td>https://proxy.mimvp.com/</td>
         </tr>
