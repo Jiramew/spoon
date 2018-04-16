@@ -160,6 +160,10 @@ The default proxy providers are shown below, you can write your own providers.
           <td>https://nordvpn.com</td>
         </tr>
         <tr>
+          <td>PremProvider(@NeedProxy if you're in China)</td>
+          <td>https://premproxy.com</td>
+        </tr>
+        <tr>
           <td>YouProvider(@Deprecated)</td>
           <td>http://www.youdaili.net</td>
         </tr>
