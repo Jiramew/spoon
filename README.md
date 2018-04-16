@@ -140,6 +140,14 @@ The default proxy providers are shown below, you can write your own providers.
           <td>https://www.cool-proxy.net/</td>
         </tr>
         <tr>
+          <td>NNtimeProvider</td>
+          <td>http://nntime.com/</td>
+        </tr>
+        <tr>
+          <td>ListendeProvider</td>
+          <td>https://www.proxy-listen.de/</td>
+        </tr>
+        <tr>
           <td>MimvpProvider(@NeedCaptcha)</td>
           <td>https://proxy.mimvp.com/</td>
         </tr>

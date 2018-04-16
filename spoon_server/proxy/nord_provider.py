@@ -4,11 +4,11 @@ import requests
 
 
 class NordProvider(Provider):
-    def __init__(self, url_list=None, proxy_=None):
+    def __init__(self, url_list=None, proxy=None):
         super(Provider, self).__init__()
         if not url_list:
             self.url_list = self._gen_url_list()
-        self.proxy_ = proxy_
+        self.proxy_ = proxy
 
     @staticmethod
     def _gen_url_list():
