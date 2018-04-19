@@ -8,6 +8,7 @@ from spoon_server.proxy.ip181_provider import IP181Provider
 from spoon_server.proxy.six_provider import SixProvider
 from spoon_server.proxy.zdaye_provider import ZdayeProvider
 from spoon_server.proxy.busy_provider import BusyProvider
+from spoon_server.proxy.web_provider import WebProvider
 
 
 class Fetcher(object):
@@ -20,7 +21,7 @@ class Fetcher(object):
 
     @staticmethod
     def _generate_provider_list():
-        ip181 = IP181Provider()
+        # ip181 = IP181Provider()
         ip3366 = IP3366Provider()  # Maybe IP Block
         kp = KuaiProvider()  # Maybe malfunction
         # kpp = KuaiPayProvider()
@@ -31,7 +32,8 @@ class Fetcher(object):
         six = SixProvider()
         zdaye = ZdayeProvider()
         busy = BusyProvider()
-        return [ip181, up, ip3366, kp, xp, wp, six, zdaye, busy]
+        WebProvider(url_list=["http://www.89ip.cn/tiqv.php?sxb=&tqsl=10000&ports=&ktip=&xl=on&submit=%CC%E1++%C8%A1"])
+        return [up, ip3366, kp, xp, wp, six, zdaye, busy]
 
     def clear(self):
         self.provider_list = []

@@ -12,17 +12,19 @@ class SixProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = "http://m.66ip.cn/mo.php?sxb=&tqsl=100&port=&" \
-                   "export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea="
+        url_list = ["http://www.66ip.cn/nmtq.php?getnum=300&isp=0&"
+                    "anonymoustype={0}&start=&ports=&export=&ipaddress=&area=1&proxytype=0&api=66ip".format(i) for i in
+                    range(3, 5)]
         return url_list
 
     @Provider.provider_exception
     def getter(self):
-        html = get_html(self.url_list, headers=HEADERS)
-        if not html:
-            pass
-        for px in re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}', html):
-            yield px
+        for url in self.url_list:
+            html = get_html(url, headers=HEADERS)
+            if not html:
+                pass
+            for px in re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}', html):
+                yield px
 
 
 if __name__ == "__main__":
