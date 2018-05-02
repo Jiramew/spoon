@@ -12,9 +12,9 @@ class SixProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = ["http://www.66ip.cn/nmtq.php?getnum=300&isp=0&"
-                    "anonymoustype={0}&start=&ports=&export=&ipaddress=&area=1&proxytype=0&api=66ip".format(i) for i in
-                    range(3, 5)]
+        url_list = [
+            "http://www.66ip.cn/nmtq.php?getnum=300&isp=0&anonymoustype={0}&start=&ports=&export=&api=66ip".format(i)
+            for i in range(3, 5)]
         return url_list
 
     @Provider.provider_exception
