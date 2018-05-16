@@ -1,10 +1,8 @@
-import re
 from spoon_server.proxy.provider import Provider
-from spoon_server.util.html_parser import get_html
-from spoon_server.util.constant import HEADERS
+from spoon_server.util.html_parser import get_html_tree
 
 
-class FeilongProvider(Provider):
+class IphaiProvider(Provider):
     def __init__(self, url_list=None):
         super(Provider, self).__init__()
         if not url_list:
@@ -12,19 +10,21 @@ class FeilongProvider(Provider):
 
     @staticmethod
     def _gen_url_list():
-        url_list = "http://www.feilongip.com/"
+        url_list = ["http://www.iphai.com/"]
         return url_list
 
     @Provider.provider_exception
     def getter(self):
-        html = get_html(self.url_list, headers=HEADERS)
-        if not html:
-            pass
-        for px in re.findall(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}', html):
-            yield px
+        for url in self.url_list:
+            tree = get_html_tree(url)
+            if tree is None:
+                continue
+            proxy_list = tree.xpath('/html/body/div[4]/div[2]/table/tr')[1:]
+            for px in proxy_list:
+                yield ':'.join([px.xpath('./td[1]/text()')[0].strip(), px.xpath('./td[2]/text()')[0].strip()])
 
 
 if __name__ == "__main__":
-    kd = FeilongProvider()
+    kd = IphaiProvider()
     for proxy in kd.getter():
         print(proxy)

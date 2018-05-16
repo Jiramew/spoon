@@ -18,7 +18,7 @@ class WebProvider(Provider):
             "http://comp0.ru/downloads/proxylist.txt",
             "http://www.proxylists.net/http_highanon.txt",
             'http://ab57.ru/downloads/proxylist.txt',
-            'https://www.rmccurdy.com/scripts/proxy/good.txt'
+            # 'https://www.rmccurdy.com/scripts/proxy/good.txt'
         ]
         return url_list
 
