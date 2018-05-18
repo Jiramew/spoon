@@ -32,8 +32,8 @@ class Fetcher(object):
         six = SixProvider()
         zdaye = ZdayeProvider()
         busy = BusyProvider()
-        WebProvider(url_list=["http://www.89ip.cn/tiqv.php?sxb=&tqsl=10000&ports=&ktip=&xl=on&submit=%CC%E1++%C8%A1"])
-        return [up, ip3366, kp, xp, wp, six, zdaye, busy]
+        webp = WebProvider()
+        return [up, ip3366, kp, xp, wp, six, zdaye, busy, webp]
 
     def clear(self):
         self.provider_list = []

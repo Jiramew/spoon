@@ -8,7 +8,13 @@ from spoon_server.main.validater import validater_run
 
 
 class ProxyPipe(object):
-    def __init__(self, database=None, fetcher=None, url_prefix=None, checker=None):
+    def __init__(self,
+                 database=None,
+                 fetcher=None,
+                 url_prefix=None,
+                 checker=None,
+                 validater_thread_num=30,
+                 refresher_thread_num=30):
         if not fetcher:
             self._fetcher = Fetcher()
         else:
@@ -22,6 +28,9 @@ class ProxyPipe(object):
         self._database = database
         self._url_prefix = url_prefix
 
+        self.validater_thread_num = validater_thread_num
+        self.refresher_thread_num = refresher_thread_num
+
     def set_fetcher(self, provider_list):
         self._fetcher.set_provider(provider_list)
         return self
@@ -31,8 +40,18 @@ class ProxyPipe(object):
         return self
 
     def start(self):
-        proc1 = Process(target=validater_run, args=(self._url_prefix, self._database, self._checker,))
-        proc2 = Process(target=refresher_run, args=(self._url_prefix, self._fetcher, self._database, self._checker,))
+        proc1 = Process(target=validater_run,
+                        args=(self._url_prefix,
+                              self._database,
+                              self._checker,
+                              self.validater_thread_num,))
+
+        proc2 = Process(target=refresher_run,
+                        args=(self._url_prefix,
+                              self._fetcher,
+                              self._database,
+                              self._checker,
+                              self.refresher_thread_num,))
 
         proc_list = [proc1, proc2]
 

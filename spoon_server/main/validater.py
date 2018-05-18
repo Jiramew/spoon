@@ -1,5 +1,5 @@
 import time
-from multiprocessing.dummy import Pool
+import concurrent.futures
 
 from spoon_server.util.validate import validate
 from spoon_server.main.manager import Manager
@@ -8,8 +8,9 @@ from spoon_server.database.redis_config import RedisConfig
 
 
 class Validater(Manager):
-    def __init__(self, url_prefix=None, database=None, checker=None):
+    def __init__(self, url_prefix=None, database=None, checker=None, validater_thread_num=30):
         super(Validater, self).__init__(database=database, url_prefix=url_prefix, checker=checker)
+        self.validater_thread_num = validater_thread_num
 
     def _validate_proxy(self, each_proxy):
         if isinstance(each_proxy, bytes):
@@ -36,17 +37,18 @@ class Validater(Manager):
 
     def main(self):
         while True:
-            with Pool(10) as pool:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=self.validater_thread_num) as executor:
                 proxy_list = [each_proxy for each_proxy in
                               self.database.get_all(self.generate_name(self._useful_prefix))]
-                pool.map(self._validate_proxy, proxy_list)
-                pool.close()
-                pool.join()
-                time.sleep(2)
+                for proxy in proxy_list:
+                    executor.submit(self._validate_proxy, proxy)
 
 
-def validater_run(url=None, database=None, checker=None):
-    validater = Validater(url_prefix=url, database=database, checker=checker)
+def validater_run(url=None, database=None, checker=None, validater_thread_num=30):
+    validater = Validater(url_prefix=url,
+                          database=database,
+                          checker=checker,
+                          validater_thread_num=validater_thread_num)
     validater.main()
 
 

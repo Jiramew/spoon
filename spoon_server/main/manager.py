@@ -29,7 +29,7 @@ class Manager(object):
         else:  # refresher
             self._fetcher = fetcher
             self._fetcher.backup_provider()
-            log.error("REFRESH FETCHER BACKUP PROVIDER {0}".format(str(self._fetcher)))
+            log.info("REFRESH FETCHER BACKUP PROVIDER {0}".format(str(self._fetcher)))
 
         if not checker:
             self._checker = Checker()
@@ -67,9 +67,9 @@ class Manager(object):
             log.info("REFRESH DID NOT MEET CONDITION. TARGET{0}".format(self.get_netloc()))
             return
 
-        if len(self._fetcher) < 3:
+        if len(self._fetcher) < 6:
             self._fetcher.restore_provider()
-            log.info("REFRESH FETCHER FAILED: NO ENOUGH PROVIDER, RESTORE PROVIDERS TO {0}. TARGET {1}".format(
+            log.info("REFRESH FETCHER FAILED: NO ENOUGH PROVIDER, RESTORE PROVIDERS TO {0} for TARGET {1}".format(
                 str(self._fetcher), self.get_netloc()))
         proxy_set = set()
 

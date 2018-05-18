@@ -11,7 +11,10 @@ def main_run():
     p1 = ProxyPipe(url_prefix="https://www.baidu.com",
                    fetcher=Fetcher(use_default=False),
                    database=redis,
-                   checker=CheckerBaidu()).set_fetcher([KuaiProvider()]).add_fetcher([XiciProvider()])
+                   checker=CheckerBaidu(),
+                   validater_thread_num=30,
+                   refresher_thread_num=30
+                   ).set_fetcher([KuaiProvider()]).add_fetcher([XiciProvider()])
     p1.start()
 
 
