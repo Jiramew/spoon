@@ -130,6 +130,9 @@ class Manager(object):
     def get_range_from(self, target):
         return self.database.zrange(target, 0, -1)
 
+    def scan_kv_from(self, target, cursor):
+        return self.database.scan_kv(target, cursor)
+
 
 if __name__ == "__main__":
     pp = Manager()

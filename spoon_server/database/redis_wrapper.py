@@ -66,6 +66,9 @@ class RedisWrapper(object):
     def get_all_kv(self, name):
         return self._connection.hgetall(name)
 
+    def scan_kv(self, name, cursor):
+        return self._connection.hscan(name, cursor)
+
     def zrange(self, name, low, high):
         return self._connection.zrange(name, low, high)
 

@@ -40,14 +40,12 @@ def pid_exists(pid):
 
 
 def run_proxy(local_addr, local_port,
-              remote_addr, remote_port,
-              socks5_addr=None, socks5_port=None):
+              remote_addr, remote_port):
     serv = forward.ForwardServer()
     print(local_addr, local_port,
-          remote_addr, remote_port, socks5_addr, socks5_port)
+          remote_addr, remote_port)
     serv.setListen(local_addr, local_port) \
-        .setRemote(remote_addr, remote_port) \
-        .setProxySocks5(socks5_addr, socks5_port)
+        .setRemote(remote_addr, remote_port)
     serv.serve()
 
 
@@ -87,11 +85,9 @@ def start():
 
     listen = "127.0.0.1:12001"
     remote = "119.39.48.205:9090"
-    socks5_proxy = None  # "127.0.0.1:7700"
 
     local_addr, local_port = None, None
     remote_addr, remote_port = None, None
-    socks5_addr, socks5_port = None, None
 
     x = re.match(re_ip_port, listen)
     if not x:
@@ -109,20 +105,10 @@ def start():
     remote_addr = remote_addr.rstrip(':')
     remote_port = int(x.group('port'))
 
-    if socks5_proxy:
-        x = re.match(re_ip_port, socks5_proxy)
-        if not x:
-            log.info('listen format error!')
-            sys.exit(1)
-        socks5_addr = x.group('addr') or '0.0.0.0'
-        socks5_addr = socks5_addr.rstrip(':')
-        socks5_port = int(x.group('port'))
-
     threading.Thread(
         target=run_proxy,
         args=(local_addr, local_port,
-              remote_addr, remote_port,
-              socks5_addr, socks5_port)
+              remote_addr, remote_port)
     ).start()
 
     log.info('start all proxy done')

@@ -71,8 +71,7 @@ class ForwardServer(object):
 
     def _forward(self, sock_in):
         try:
-            print("Remote host and remote port", self.default_remote_host, self.default_remote_port)
-            sock_out = ForwardClient(self.default_remote_host, self.default_remote_port).get_client()
+            sock_out = ForwardClient()
             log.info('get the client socks done')
         except Exception as e:
             log.error('Get Remote Client error: %s' % str(e))
@@ -81,23 +80,43 @@ class ForwardServer(object):
         threading.Thread(target=self._do_data_forward, args=(sock_in, sock_out)).start()
         threading.Thread(target=self._do_data_forward, args=(sock_out, sock_in)).start()
 
-        # self._do_data_forward(sock_in, sock_out)
-        # self._do_data_forward(sock_out, sock_in)
-
     def _do_data_forward(self, sock_in, sock_out):
+        if isinstance(sock_in, ForwardClient):
+            sock_in = sock_in.get_client(self.default_remote_host, self.default_remote_port)
+
         addr_in = '%s:%d' % sock_in.getpeername()
-        addr_out = '%s:%d' % sock_out.getpeername()
 
         while True:
             try:
                 data = sock_in.recv(ForwardServer.PAGE_SIZE)
+                if isinstance(sock_out, ForwardClient):
+                    print("sock_in", data)
+                    if b'Host' in data:
+                        host_match = re.match(r'.*Host:\s(.*?)\r\n.*', data.decode("utf-8"), re.S)
+                        if host_match:
+                            hostname = host_match[1]
+                            current_proxy_list = self.m.get_range_from(":".join(["spoon", hostname, "current_proxy"]))
+                            if current_proxy_list:
+                                ran_num = random.randint(0, len(current_proxy_list) // 3)
+                                proxy = current_proxy_list[ran_num].decode("utf-8")
+                                sock_out = sock_out.get_client(proxy.split(":")[0], int(proxy.split(":")[1]))
+                                log.info("Change Remote Proxy: {0}".format(proxy))
+                            else:
+                                log.info("Change Remote Proxy: ",
+                                         self.default_remote_host + ":" + self.default_remote_port)
+                                sock_out = sock_out.get_client(self.default_remote_host, self.default_remote_port)
+                    sock_out = sock_out.get_client(self.default_remote_host, self.default_remote_port)
             except Exception as e:
+                if isinstance(sock_out, ForwardClient):
+                    sock_out = sock_out.get_client(self.default_remote_host, self.default_remote_port)
                 log.error('Socket read error of %s: %s' % (addr_in, str(e)))
                 break
 
             if not data:
                 log.info('Socket closed by ' + addr_in)
                 break
+
+            addr_out = '%s:%d' % sock_out.getpeername()
 
             try:
                 sock_out.sendall(data)
@@ -112,21 +131,13 @@ class ForwardServer(object):
 
 
 class ForwardClient(object):
-    def __init__(self, host, port):
-        self.remote_host = host
-        self.remote_port = port
-
-    def set_remote(self, host, port):
-        self.remote_host = host
-        self.remote_port = port
-        return self
-
-    def get_client(self):
+    @staticmethod
+    def get_client(remote_host, remote_port):
         sock_out = socks.socksocket(socket.AF_INET, socket.SOCK_STREAM)
 
         try:
-            print('remote,=', (self.remote_host, self.remote_port))
-            sock_out.connect((self.remote_host, self.remote_port))
+            print('remote,=', (remote_host, remote_port))
+            sock_out.connect((remote_host, remote_port))
         except socket.error as e:
             sock_out.close()
             log.error('Remote connect error: %s' % str(e))
