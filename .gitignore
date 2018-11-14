@@ -2,7 +2,6 @@
 *.pyc
 *.log
 .pypirc
-test/
 dist/
 build/
 spoonproxy.egg-info/
