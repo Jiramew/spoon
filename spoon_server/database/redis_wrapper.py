@@ -45,6 +45,9 @@ class RedisWrapper(object):
     def ltrim(self, name, from_index, to_index):
         self._connection.ltrim(name, from_index, to_index)
 
+    def sadd(self, name, value):
+        self._connection.sadd(name, value)
+
     def zadd(self, name, key, score):
         self._connection.zadd(name, key, score)
 
