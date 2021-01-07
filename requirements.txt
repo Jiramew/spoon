@@ -1,7 +1,7 @@
 selenium==3.5.0
 requests==2.20.0
 django==1.11.23
-lxml==3.8.0
+lxml==4.6.2
 redis==2.10.5
 schedule==0.4.3
 PyExecJS==1.4.0
