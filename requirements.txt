@@ -1,6 +1,6 @@
 selenium==3.5.0
 requests==2.20.0
-django==1.11.23
+django==2.2.24
 lxml==3.8.0
 redis==2.10.5
 schedule==0.4.3
